@@ -19,8 +19,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Create Tag Date
+        run: echo "TAG_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
+
       - name: Build Docker Image
-        run: docker build -t ghcr.io/themeliolabs/windows-32-bit:latest windows-32-bit/
+        run: docker build -t "ghcr.io/themeliolabs/windows-32-bit:${TAG_DATE}" windows-32-bit/
 
   build-wine:
     runs-on: self-hosted
@@ -35,8 +38,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Create Tag Date
+        run: echo "TAG_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
+
       - name: Build Docker Image
-        run: docker build -t ghcr.io/themeliolabs/wine:latest wine/
+        run: docker build -t "ghcr.io/themeliolabs/wine:${TAG_DATE}" wine/
 
   build-biome:
     runs-on: self-hosted
@@ -51,5 +57,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Create Tag Date
+        run: echo "TAG_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
+
       - name: Build Docker Image
-        run: docker build -t ghcr.io/themeliolabs/biome:latest biome/
+        run: docker build -t "ghcr.io/themeliolabs/biome:${TAG_DATE}" biome/

@@ -19,11 +19,17 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build Docker Image
-        run: docker build -t ghcr.io/themeliolabs/windows-32-bit:latest windows-32-bit/
+      - name: Create Tag Date
+        run: echo "TAG_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
 
-      - name: Publish Docker Image
+      - name: Build Docker Image
+        run: docker build -t ghcr.io/themeliolabs/windows-32-bit:latest -t "ghcr.io/themeliolabs/windows-32-bit:${TAG_DATE}" windows-32-bit/
+
+      - name: Publish Latest Docker Image
         run: docker push ghcr.io/themeliolabs/windows-32-bit:latest
+
+      - name: Publish Date Tagged Docker Image
+        run: docker push "ghcr.io/themeliolabs/windows-32-bit:${TAG_DATE}"
 
   build-and-publish-wine:
     runs-on: self-hosted
@@ -38,11 +44,17 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build Docker Image
-        run: docker build -t ghcr.io/themeliolabs/wine:latest wine/
+      - name: Create Tag Date
+        run: echo "TAG_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
 
-      - name: Publish Docker Image
+      - name: Build Docker Image
+        run: docker build -t ghcr.io/themeliolabs/wine:latest -t "ghcr.io/themeliolabs/wine:${TAG_DATE}" wine/
+
+      - name: Publish Latest Docker Image
         run: docker push ghcr.io/themeliolabs/wine:latest
+
+      - name: Publish Date Tagged Docker Image
+        run: docker push "ghcr.io/themeliolabs/wine:${TAG_DATE}"
 
   build-and-publish-biome:
     runs-on: self-hosted
@@ -57,8 +69,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build Docker Image
-        run: docker build -t ghcr.io/themeliolabs/biome:latest biome/
+      - name: Create Tag Date
+        run: echo "TAG_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
 
-      - name: Publish Docker Image
+      - name: Build Docker Image
+        run: docker build -t ghcr.io/themeliolabs/biome:latest -t "ghcr.io/themeliolabs/biome:${TAG_DATE}" biome/
+
+      - name: Publish Latest Docker Image
         run: docker push ghcr.io/themeliolabs/biome:latest
+
+      - name: Publish Date Tagged Docker Image
+        run: docker push "ghcr.io/themeliolabs/biome:${TAG_DATE}"
